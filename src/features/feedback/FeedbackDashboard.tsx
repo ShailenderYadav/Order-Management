@@ -50,47 +50,49 @@ export default function FeedbackDashboard() {
   }, [hasMore, page, dispatch]);
 
   return (
-    <div className="p-4">
-      <div className="flex gap-2 mb-4">
-        <input
-          type="text"
-          placeholder="Search feedback..."
-          defaultValue={search}
-          onChange={e => debouncedSearch(e.target.value)}
-          className="border p-2 rounded w-64"
-        />
-        <select
-          value={filterTag || ''}
-          onChange={e => dispatch(setFilterTag(e.target.value || null))}
-          className="border p-2 rounded"
-        >
-          <option value="">All Tags</option>
-          {tags.map((tag: Tag) => (
-            <option key={tag.id} value={tag.id}>{tag.name}</option>
-          ))}
-        </select>
-      </div>
-      <div ref={listRef} className="h-96 overflow-y-auto border rounded p-2 bg-white">
-        {paginated.map((f: FeedbackItem) => (
-          <div key={f.id} className="border-b py-2 flex flex-col gap-1">
-            <div className="font-semibold">{f.customer}</div>
-            <div>{f.message}</div>
-            <div className="flex gap-2 text-xs items-center">
-              <span className="italic">{f.sentiment}</span>
-              {f.tags.map(tagId => {
-                const tag = tags.find(t => t.id === tagId);
-                return tag ? (
-                  <span key={tag.id} style={{ background: tag.color }} className="px-2 py-0.5 rounded text-white">{tag.name}</span>
-                ) : null;
-              })}
-              <span className="ml-auto">{f.date}</span>
-              <button onClick={() => setEditing(f)} className="ml-2 px-2 py-1 bg-blue-500 text-white rounded">Edit</button>
+    <div className="min-vh-100 d-flex align-items-center justify-content-center bg-light">
+      <div className="p-3 w-100" style={{maxWidth: '900px'}}>
+        <div className="d-flex gap-2 mb-4">
+          <input
+            type="text"
+            placeholder="Search feedback..."
+            defaultValue={search}
+            onChange={e => debouncedSearch(e.target.value)}
+            className="form-control w-50 me-2"
+          />
+          <select
+            value={filterTag || ''}
+            onChange={e => dispatch(setFilterTag(e.target.value || null))}
+            className="form-control me-2"
+          >
+            <option value="">All Tags</option>
+            {tags.map((tag: Tag) => (
+              <option key={tag.id} value={tag.id}>{tag.name}</option>
+            ))}
+          </select>
+        </div>
+        <div ref={listRef} className="overflow-auto border rounded p-2 bg-white" style={{height: '24rem'}}>
+          {paginated.map((f: FeedbackItem) => (
+            <div key={f.id} className="border-bottom py-2 d-flex flex-column gap-1">
+              <div className="fw-semibold">{f.customer}</div>
+              <div>{f.message}</div>
+              <div className="d-flex gap-2 small align-items-center">
+                <span className="fst-italic">{f.sentiment}</span>
+                {f.tags.map(tagId => {
+                  const tag = tags.find(t => t.id === tagId);
+                  return tag ? (
+                    <span key={tag.id} style={{ background: tag.color }} className="px-2 py-1 rounded text-white">{tag.name}</span>
+                  ) : null;
+                })}
+                <span className="ms-auto">{f.date}</span>
+                <button onClick={() => setEditing(f)} className="ms-2 btn btn-primary btn-sm">Edit</button>
+              </div>
             </div>
-          </div>
-        ))}
-        {paginated.length === 0 && <div className="text-center text-gray-400">No feedback found.</div>}
+          ))}
+          {paginated.length === 0 && <div className="text-center text-secondary">No feedback found.</div>}
+        </div>
+        {editing && <FeedbackTaggingModal feedback={editing} onClose={() => setEditing(null)} />}
       </div>
-      {editing && <FeedbackTaggingModal feedback={editing} onClose={() => setEditing(null)} />}
     </div>
   );
 } 

@@ -20,16 +20,16 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <form onSubmit={handleSubmit(onSubmit)} className="bg-white p-8 rounded shadow-md w-80 space-y-4">
-        <h2 className="text-2xl font-bold mb-4">Login</h2>
-        <input {...register('user', { required: true })} placeholder="Username" className="w-full p-2 border rounded" />
-        <select {...register('role', { required: true })} className="w-full p-2 border rounded">
+    <div className="min-vh-100 d-flex align-items-center justify-content-center bg-light">
+      <form onSubmit={handleSubmit(onSubmit)} className="bg-white p-4 rounded shadow w-100" style={{maxWidth: '20rem'}}>
+        <h2 className="fs-4 fw-semibold text-center mb-4">Login</h2>
+        <input {...register('user', { required: true })} placeholder="Username" className="form-control mb-3" />
+        <select {...register('role', { required: true })} className="form-select mb-3">
           <option value="">Select Role</option>
           <option value="analyst">Analyst</option>
           <option value="manager">Manager</option>
         </select>
-        <button type="submit" className="w-full bg-blue-600 text-white p-2 rounded">Login</button>
+        <button type="submit" className="btn btn-primary w-100">Login</button>
       </form>
     </div>
   );

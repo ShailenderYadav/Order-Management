@@ -2,7 +2,6 @@
 // No content change needed. 
 module.exports = {
   plugins: {
-    '@tailwindcss/postcss': {},
     autoprefixer: {},
   },
 }

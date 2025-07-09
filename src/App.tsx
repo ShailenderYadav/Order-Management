@@ -11,32 +11,34 @@ function App() {
   const role = useSelector((state: RootState) => state.auth.role);
   return (
     <BrowserRouter>
-      <div className="bg-gray-100 p-4 flex gap-4 items-center">
-        <a href="/dashboard" className="text-blue-600 hover:underline">Dashboard</a>
-        <a href="/analytics" className="text-blue-600 hover:underline">Analytics</a>
-        {role === 'manager' && <a href="/tags" className="text-blue-600 hover:underline">Manage Tags</a>}
+      <div className="bg-light p-3 d-flex gap-3 align-items-center">
+        <a href="/dashboard" className="text-primary text-decoration-underline">Dashboard</a>
+        <a href="/analytics" className="text-primary text-decoration-underline">Analytics</a>
+        {role === 'manager' && <a href="/tags" className="text-primary text-decoration-underline">Manage Tags</a>}
       </div>
-      <Routes>
-        <Route path="/" element={<Navigate to="/login" replace />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/unauthorized" element={<div className="p-8 text-center">Unauthorized</div>} />
-        <Route path="/dashboard" element={
-          <ProtectedRoute>
-            <FeedbackDashboard />
-          </ProtectedRoute>
-        } />
-        <Route path="/analytics" element={
-          <ProtectedRoute>
-            <AnalyticsCharts />
-          </ProtectedRoute>
-        } />
-        <Route path="/tags" element={
-          <ProtectedRoute requiredRole="manager">
-            <TagManager />
-          </ProtectedRoute>
-        } />
-        {/* More routes will be added here */}
-      </Routes>
+      <div className="d-flex justify-content-center align-items-center min-vh-100">
+        <Routes>
+          <Route path="/" element={<Navigate to="/login" replace />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/unauthorized" element={<div className="p-5 text-center">Unauthorized</div>} />
+          <Route path="/dashboard" element={
+            <ProtectedRoute>
+              <FeedbackDashboard />
+            </ProtectedRoute>
+          } />
+          <Route path="/analytics" element={
+            <ProtectedRoute>
+              <AnalyticsCharts />
+            </ProtectedRoute>
+          } />
+          <Route path="/tags" element={
+            <ProtectedRoute requiredRole="manager">
+              <TagManager />
+            </ProtectedRoute>
+          } />
+          {/* More routes will be added here */}
+        </Routes>
+      </div>
     </BrowserRouter>
   );
 }
